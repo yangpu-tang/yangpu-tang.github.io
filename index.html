@@ -7,7 +7,6 @@
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   <title>YangPu Tang</title>
   <style>
-    /* 全局变量：浅色/深色模式切换 */
     :root {
       --bg-color: #ffffff;
       --text-color: #2c3e50;
@@ -16,6 +15,7 @@
       --border-color: #e5e7eb;
       --shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
+
     .dark-mode {
       --bg-color: #121212;
       --text-color: #e0e0e0;
@@ -32,7 +32,6 @@
       transition: all 0.3s ease;
     }
 
-    /* 全局平滑滚动 */
     html {
       scroll-behavior: smooth;
     }
@@ -53,7 +52,6 @@
       z-index: 1;
     }
 
-    /* 个人信息头部 */
     .header {
       display: flex;
       flex-wrap: wrap;
@@ -61,10 +59,12 @@
       gap: 2rem;
       margin-bottom: 2rem;
     }
+
     .info {
       flex: 1;
       min-width: 300px;
     }
+
     .avatar {
       width: 180px;
       height: 180px;
@@ -72,6 +72,7 @@
       border-radius: 12px;
       box-shadow: var(--shadow);
     }
+
     .avatar:hover {
       transform: scale(1.03);
     }
@@ -88,16 +89,17 @@
       text-align: center;
       margin-top: 1rem;
     }
+
     a {
       color: var(--primary);
       text-decoration: none;
       font-weight: 500;
     }
+
     a:hover {
       text-decoration: underline;
     }
 
-    /* 分割线 */
     hr {
       border: none;
       height: 1px;
@@ -105,7 +107,6 @@
       margin: 2rem 0;
     }
 
-    /* 标题样式 */
     h3 {
       font-size: 1.4em;
       font-weight: 600;
@@ -116,7 +117,6 @@
       display: inline-block;
     }
 
-    /* 卡片通用样式 */
     .card {
       background-color: var(--card-bg);
       padding: 1.2rem 1.5rem;
@@ -126,6 +126,7 @@
       position: relative;
       padding-left: 2rem;
     }
+
     .card::before {
       content: "";
       position: absolute;
@@ -136,12 +137,12 @@
       background: var(--primary);
       border-radius: 50%;
     }
+
     .card:hover {
       transform: translateY(-3px);
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
-    /* 期刊标签高亮 */
     .tag {
       padding: 2px 8px;
       border-radius: 4px;
@@ -149,20 +150,20 @@
       margin-right: 5px;
       color: white;
     }
+
     .tag-tip { background-color: #e74c3c; }
     .tag-tce { background-color: #2ecc71; }
     .tag-tcsvt { background-color: #3498db; }
     .tag-ACS { background-color: #9b59b6; }
     .tag-ASS { background-color: #6d59b6; }
     .tag-ieice { background-color: #a2b659; }
+    .tag-neuro { background-color: #f39c12; }
 
-    /* 学术服务单行显示 */
     .services-item {
       display: block;
       margin-bottom: 8px;
     }
 
-    /* 模态框样式 */
     .modal {
       display: none;
       position: fixed;
@@ -173,6 +174,7 @@
       height: 100%;
       background-color: rgba(0,0,0,0.7);
     }
+
     .modal-content {
       position: absolute;
       top: 50%;
@@ -184,12 +186,14 @@
       text-align: center;
       min-width: 300px;
     }
+
     .modal-content img {
       max-width: 250px;
       height: auto;
       margin-bottom: 1rem;
       border-radius: 8px;
     }
+
     .email-text {
       font-size: 1.2em;
       padding: 1rem 1.5rem;
@@ -199,6 +203,7 @@
       cursor: pointer;
       border: 1px solid var(--border-color);
     }
+
     .close {
       position: absolute;
       top: 10px;
@@ -207,11 +212,11 @@
       cursor: pointer;
       color: var(--text-color);
     }
+
     .close:hover {
       color: var(--primary);
     }
 
-    /* 回到顶部按钮 */
     #backTop {
       position: fixed;
       bottom: 2rem;
@@ -230,11 +235,11 @@
       box-shadow: var(--shadow);
       z-index: 999;
     }
+
     #backTop:hover {
       background-color: #0047cc;
     }
 
-    /* 深色模式切换按钮 */
     #themeToggle {
       position: fixed;
       top: 1rem;
@@ -248,7 +253,6 @@
       z-index: 999;
     }
 
-    /* 课题组相册样式 */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, 220px);
@@ -256,7 +260,7 @@
       margin-top: 1rem;
       justify-content: start;
     }
-    
+
     .gallery-item {
       width: 220px;
       height: 160px;
@@ -264,18 +268,18 @@
       overflow: hidden;
       box-shadow: var(--shadow);
     }
-    
+
     .gallery-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       cursor: pointer;
     }
+
     .gallery-item:hover {
       transform: translateY(-5px);
     }
 
-    /* 页面加载动画 */
     .loader {
       position: fixed;
       top: 0;
@@ -284,18 +288,17 @@
       height: 100%;
       background: var(--bg-color);
       display: flex;
-      theight: 100%;
-      background: var(--bg-color);
-      display: flex;
       justify-content: center;
       align-items: center;
       z-index: 9999;
       transition: opacity 0.5s ease;
     }
+
     .loader.hidden {
       opacity: 0;
       pointer-events: none;
     }
+
     .loader-circle {
       width: 50px;
       height: 50px;
@@ -304,23 +307,23 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
 
-    /* 滚动淡入动画 */
     .fade-in {
       opacity: 0;
       transform: translateY(20px);
       transition: all 0.6s ease;
     }
+
     .fade-in.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* 访问统计样式 */
     .visitor-count {
       text-align: center;
       padding: 0.8rem;
@@ -331,52 +334,66 @@
     }
   </style>
 </head>
+
 <body>
-  <!-- 页面加载动画 -->
   <div class="loader" id="loader">
     <div class="loader-circle"></div>
   </div>
 
-  <!-- 深色模式切换 -->
   <button id="themeToggle">🌙 Dark Mode</button>
-  <!-- 回到顶部按钮 -->
   <button id="backTop">🚀</button>
 
   <div class="container">
-    <!-- 头部信息 -->
     <div class="header fade-in">
       <div class="info">
         <h1 class="name">YangPu Tang 唐阳璞</h1>
-        <p>🎓 I received my bachelor's degree from the School of Mechanical Engineering, Shandong University of Technology, China, and worked with <a href="https://calm.sdut.edu.cn/2021/0707/c7248a432585/page.htm"> Prof. Bing Yang</a>, <a href="http://sme.hubu.edu.cn/info/1090/2411.htm"> Prof. Xiaohu Wu</a>, <a href="https://calm.sdut.edu.cn/2021/0615/c7248a429589/page.htm"> Prof. Hongyu Zheng</a> and <a href="https://baike.baidu.com/item/%E8%8B%91%E5%9F%8E%E7%8E%AE/56849491"> Prof. Chengwei Yuan</a>.</p>
+
+        <p>🎓 I received my bachelor's degree from the School of Mechanical Engineering, Shandong University of Technology, China, and worked with <a href="https://calm.sdut.edu.cn/2021/0707/c7248a432585/page.htm">Prof. Bing Yang</a>, <a href="http://sme.hubu.edu.cn/info/1090/2411.htm">Prof. Xiaohu Wu</a>, <a href="https://calm.sdut.edu.cn/2021/0615/c7248a429589/page.htm">Prof. Hongyu Zheng</a> and <a href="https://baike.baidu.com/item/%E8%8B%91%E5%9F%8E%E7%8E%AE/56849491">Prof. Chengwei Yuan</a>.</p>
+
         <p>✈️ I am now studying in the School of Robotics Science and Engineering of Northeastern University, supervised by <a href="http://www.rse.neu.edu.cn/2024/0906/c2264a267939/page.htm" target="_blank">Prof. Xiaosheng Yu</a>, and worked closely with <a href="https://scholar.google.com/citations?hl=zh-CN&user=jXLkbw8AAAAJ" target="_blank">Prof. Xiao Dong</a>, <a href="https://scholar.google.com/citations?user=Tf5C2hkAAAAJ&hl=zh-CN" target="_blank">Dr. Jubo Chen</a>, and <a href="https://plus-sist.github.io/author/wenyu-cheng/" target="_blank">Wenyu Chen</a>.</p>
-        <p>🔍 My research interests include computer vision and machine learning, with a current focus on VLN.</p>
+
+        <p>🔍 My research interests include computer vision and machine learning, with a current focus on VLN, multimodal perception, and remote sensing / RGB-T visual understanding.</p>
+
         <div class="links">
           <a href="#email-modal" onclick="openEmailModal()">📧 Email</a> &nbsp;/&nbsp;
           <a href="https://scholar.google.com/citations?hl=zh-CN&view_op=list_works&gmla=AEk_c1vG48AU9MEXeaPPVMz5Wy8M5Xww0aanWNR55DwiS7qS6ozDE5F4_ZPAwydGujq5uHBDJCPplgU3WzkDliz26Ma1OzA&user=0yu9XvgAAAAJ" target="_blank">📚 Scholar</a> &nbsp;/&nbsp;
           <a href="https://github.com/yangpu-tang" target="_blank">💻 Github</a> &nbsp;/&nbsp;
         </div>
       </div>
+
       <img src="images/photo.jpg" alt="profile photo" class="avatar">
     </div>
 
     <hr class="fade-in">
 
-    <!-- 论文 -->
     <h3 class="fade-in"><strong>📄 Representative Publications</strong></h3>
+
     <div class="card fade-in">
       <a href="https://ieeexplore.ieee.org/document/11520908" target="_blank">
         <span class="papertitle"><strong>GLF-Net: Global–Local Fourier-Aware Network with Long-Range Context and Multi-Scale Fusion for Remote Sensing Segmentation</strong></span>
       </a>
       <br>
-      <strong>Yangpu Tang</strong>, Xiaosheng Yu; Yifan Zhang; Jubo Chen; Zhuoqun Fang; Zhaokui Li
+      <strong>Yangpu Tang</strong>; Xiaosheng Yu; Yifan Zhang; Jubo Chen; Zhuoqun Fang; Zhaokui Li
       <br>
       <p style="margin:5px 0;"><em><span class="tag tag-tip">GRSL 2026</span> IEEE Geoscience and Remote Sensing Letters (中科院3区，JCR Q1)</em></p>
       <a href="https://github.com/yangpu-tang" target="_blank">[github]</a>
       <a href="https://ieeexplore.ieee.org/document/11520908" target="_blank">[IEEE]</a>
     </div>
+
+    <div class="card fade-in">
+      <a href="https://doi.org/10.1016/j.neucom.2026.134441" target="_blank">
+        <span class="papertitle"><strong>SFC-net: A Spatial Frequency-Inspired Feature Collaborative Alignment and Fusion Network for Weakly Aligned RGB-T Salient Object Detection</strong></span>
+      </a>
+      <br>
+      Jubo Chen; Xiaosheng Yu; Liuyi Meng; <strong>Yangpu Tang</strong>; Mingli Song
+      <br>
+      <p style="margin:5px 0;"><em><span class="tag tag-neuro">Neurocomputing 2026</span> Neurocomputing</em></p>
+      <a href="https://doi.org/10.1016/j.neucom.2026.134441" target="_blank">[DOI]</a>
+    </div>
+
     <div class="card fade-in">
       <a href="https://ieeexplore.ieee.org/document/11214438" target="_blank">
-        <span class="papertitle"><strong>Idea Visual: Intent-Driven View Synthesis for Smart Mobile Devices via Retrieval-Augmented Diffusion Modelsn</strong></span>
+        <span class="papertitle"><strong>Idea Visual: Intent-Driven View Synthesis for Smart Mobile Devices via Retrieval-Augmented Diffusion Models</strong></span>
       </a>
       <br>
       Jubo Chen; Xiaosheng Yu; <strong>Yangpu Tang</strong>; Zhengxuan Jiang
@@ -385,17 +402,19 @@
       <a href="https://github.com/yangpu-tang" target="_blank">[github]</a>
       <a href="https://ieeexplore.ieee.org/document/11214438" target="_blank">[IEEE]</a>
     </div>
+
     <div class="card fade-in">
       <a href="https://www.sciencedirect.com/science/article/pii/S0169433224006184" target="_blank">
-        <span class="papertitle"><strong>Modulation of the interfacial thermal resistances of the w-AlN/Graphene/3C-SiC interface by nanoscale nonplanar feature structures</strong></span>
+        <span class="papertitle"><strong>Modulation of the Interfacial Thermal Resistances of the w-AlN/Graphene/3C-SiC Interface by Nanoscale Nonplanar Feature Structures</strong></span>
       </a>
       <br>
-      Bing Yang; <strong>Yangpu Tang</strong>; Zhiduo Xin; Hongyu Zheng; Dongfeng Qi; Nana Zhang; Yunqing Tang; Xiaohu Wu <strong>(I am the second author, with my advisor as the first author.)</strong>
+      Bing Yang; <strong>Yangpu Tang</strong>; Zhiduo Xin; Hongyu Zheng; Dongfeng Qi; Nana Zhang; Yunqing Tang; Xiaohu Wu <strong>(I am the second author, with my advisor as the first author.)</strong>
       <br>
       <p style="margin:5px 0;"><em><span class="tag tag-ASS">ASS 2024</span> Applied Surface Science (中科院1区top，JCR Q1)</em></p>
       <a href="https://github.com/yangpu-tang" target="_blank">[github]</a>
       <a href="https://www.sciencedirect.com/science/article/pii/S0169433224006184" target="_blank">[ELSEVIER]</a>
     </div>
+
     <div class="card fade-in">
       <a href="https://pubs.acs.org/doi/abs/10.1021/acsami.2c17661" target="_blank">
         <span class="papertitle"><strong>Thermal Transport of AlN/Graphene/3C-SiC Typical Heterostructures with Different Crystallinities of Graphene</strong></span>
@@ -405,11 +424,11 @@
       <br>
       <p style="margin:5px 0;"><em><span class="tag tag-ACS">ACS 2022</span> ACS Applied Materials & Interfaces (中科院2区top，JCR Q1)</em></p>
       <a href="https://github.com/yangpu-tang" target="_blank">[github]</a>
-      <a href="https://pubs.acs.org/doi/abs/10.1021/acsami.2c17661" target="_blank">[ELSEVIER]</a>
+      <a href="https://pubs.acs.org/doi/abs/10.1021/acsami.2c17661" target="_blank">[ACS]</a>
     </div>
+
     <hr class="fade-in">
 
-    <!-- 专利 -->
     <h3 class="fade-in"><strong>💡 Patents</strong></h3>
 
     <div class="card fade-in">
@@ -426,7 +445,7 @@
         <em>Applicant / Current Assignee: Shandong University of Technology.</em>
       </p>
     </div>
-    
+
     <div class="card fade-in">
       <span class="projecttitle">
         <strong>一种基于多传感器融合的绳驱机器人力柔顺控制方法与系统，计算机存储介质</strong>
@@ -441,7 +460,7 @@
         <em>Applicant / Current Assignee: Shandong University of Technology.</em>
       </p>
     </div>
-    
+
     <div class="card fade-in">
       <span class="projecttitle">
         <strong>一种用于同轴绳驱机械臂的双圆弧拟合方法及系统，计算机存储介质</strong>
@@ -456,51 +475,47 @@
         <em>Applicant / Current Assignee: Shandong University of Technology.</em>
       </p>
     </div>
-    
+
     <hr class="fade-in">
 
-    <!-- 获奖 -->
     <h3 class="fade-in"><strong>🏆 Honors & Awards</strong></h3>
+
     <div class="card fade-in">
       <span class="services-item"><strong>山东省优秀毕业生</strong>, 2025</span>
-      <br>
     </div>
+
     <div class="card fade-in">
       <span class="services-item"><strong>本科生国家奖学金</strong>, 2024</span>
-      <br>
     </div>
+
     <div class="card fade-in">
       <span class="services-item"><strong>推免研究生（1/120）</strong>, 2024</span>
-      <br>
     </div>
+
     <hr class="fade-in">
 
-    
-    <!-- 学术服务 -->
     <h3 class="fade-in"><strong>🤝 Academic Services</strong></h3>
+
     <div class="card fade-in">
       <span class="services-item"><strong>Reviewer:</strong> NoNoNoNoNoNoNo, etc.</span>
     </div>
 
-    <!-- 课题组相册 -->
     <h3 class="fade-in"><strong>📸 Research Group Gallery</strong></h3>
+
     <div class="gallery-grid fade-in">
       <div class="gallery-item">
         <img src="images/gaoguai.jpg" alt="Group Photo 1" onclick="openModal(this.src)">
       </div>
       <div class="gallery-item">
-        <img src="images/lulu.jpg" alt="Group Photo 1" onclick="openModal(this.src)">
+        <img src="images/lulu.jpg" alt="Group Photo 2" onclick="openModal(this.src)">
       </div>
     </div>
 
-    <!-- 访问统计 -->
     <div class="visitor-count fade-in">
       👀✨ Total Visits: <span id="visit-count">0</span>
     </div>
-
   </div>
 
-  <!-- 邮箱弹窗 -->
   <div id="email-modal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeEmailModal()">&times;</span>
@@ -509,7 +524,6 @@
     </div>
   </div>
 
-  <!-- 微信弹窗 -->
   <div id="wechat-modal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeWechatModal()">&times;</span>
@@ -518,7 +532,6 @@
     </div>
   </div>
 
-  <!-- 图片预览弹窗 -->
   <div id="img-modal" class="modal" onclick="closeImgModal()">
     <div class="modal-content">
       <span class="close" onclick="closeImgModal()">&times;</span>
@@ -527,25 +540,35 @@
   </div>
 
   <script>
-    // 邮箱弹窗
-    function openEmailModal() { document.getElementById("email-modal").style.display = "block"; }
-    function closeEmailModal() { document.getElementById("email-modal").style.display = "none"; }
+    function openEmailModal() {
+      document.getElementById("email-modal").style.display = "block";
+    }
 
-    // 微信弹窗
-    function openWechatModal() { document.getElementById("wechat-modal").style.display = "block"; }
-    function closeWechatModal() { document.getElementById("wechat-modal").style.display = "none"; }
+    function closeEmailModal() {
+      document.getElementById("email-modal").style.display = "none";
+    }
 
-    // 图片预览弹窗+滚轮缩放
+    function openWechatModal() {
+      document.getElementById("wechat-modal").style.display = "block";
+    }
+
+    function closeWechatModal() {
+      document.getElementById("wechat-modal").style.display = "none";
+    }
+
     let imgScale = 1;
+
     function openModal(src) {
       imgScale = 1;
       document.getElementById("img-modal").style.display = "block";
       document.getElementById("modal-img").src = src;
       document.getElementById("modal-img").style.transform = `scale(${imgScale})`;
     }
-    function closeImgModal() { document.getElementById("img-modal").style.display = "none"; }
 
-    // 图片滚轮缩放
+    function closeImgModal() {
+      document.getElementById("img-modal").style.display = "none";
+    }
+
     document.getElementById('modal-img').addEventListener('wheel', (e) => {
       e.preventDefault();
       imgScale += e.deltaY > 0 ? -0.1 : 0.1;
@@ -553,17 +576,16 @@
       e.target.style.transform = `scale(${imgScale})`;
     });
 
-    // 点击遮罩关闭弹窗
     window.onclick = function(event) {
       const emailModal = document.getElementById("email-modal");
       const wechatModal = document.getElementById("wechat-modal");
       const imgModal = document.getElementById("img-modal");
+
       if (event.target === emailModal) closeEmailModal();
       if (event.target === wechatModal) closeWechatModal();
       if (event.target === imgModal) closeImgModal();
-    }
+    };
 
-    // 一键复制邮箱
     function copyEmail() {
       const email = document.getElementById("emailAddr").innerText;
       navigator.clipboard.writeText(email).then(() => {
@@ -574,31 +596,31 @@
       });
     }
 
-    // 回到顶部
     const backTopBtn = document.getElementById("backTop");
+
     window.onscroll = function() {
       backTopBtn.style.display = window.scrollY > 300 ? "flex" : "none";
     };
+
     backTopBtn.onclick = function() {
       window.scrollTo(0, 0);
     };
 
-    // 深色/浅色模式切换
     const themeBtn = document.getElementById("themeToggle");
+
     themeBtn.onclick = function() {
       document.body.classList.toggle("dark-mode");
       this.innerText = document.body.classList.contains("dark-mode") ? "☀️ Light Mode" : "🌙 Dark Mode";
-    }
+    };
 
-    // 页面加载动画
     window.addEventListener('load', () => {
       setTimeout(() => {
         document.getElementById('loader').classList.add('hidden');
       }, 800);
     });
 
-    // 滚动淡入动画
     const fadeElements = document.querySelectorAll('.fade-in');
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -606,19 +628,18 @@
         }
       });
     }, { threshold: 0.1 });
+
     fadeElements.forEach(el => observer.observe(el));
 
-    // 本地访问统计
     let visitCount = localStorage.getItem('visitCount') || 0;
     visitCount = parseInt(visitCount) + 1;
     localStorage.setItem('visitCount', visitCount);
     document.getElementById('visit-count').innerText = visitCount;
 
-    // 全局快捷键
     document.addEventListener('keydown', (e) => {
       const key = e.key.toLowerCase();
-      if(key === 'd') themeBtn.click();
-      if(key === 't') backTopBtn.click();
+      if (key === 'd') themeBtn.click();
+      if (key === 't') backTopBtn.click();
     });
   </script>
 </body>
