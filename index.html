@@ -4,8 +4,15 @@
   <meta charset="UTF-8">
   <meta name="author" content="YangPu Tang">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+
+  <link
+    rel="shortcut icon"
+    href="images/favicon.ico"
+    type="image/x-icon"
+  >
+
   <title>YangPu Tang</title>
+
   <style>
     :root {
       --bg-color: #ffffff;
@@ -13,7 +20,8 @@
       --card-bg: #f8f9fa;
       --primary: #165DFF;
       --border-color: #e5e7eb;
-      --shadow: 0 2px 10px rgba(0,0,0,0.08);
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      --sidebar-width: 235px;
     }
 
     .dark-mode {
@@ -22,14 +30,20 @@
       --card-bg: #1e1e1e;
       --primary: #4d94ff;
       --border-color: #333333;
-      --shadow: 0 2px 10px rgba(0,0,0,0.3);
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      transition: all 0.3s ease;
+      transition:
+        color 0.3s ease,
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease,
+        opacity 0.3s ease;
     }
 
     html {
@@ -37,20 +51,162 @@
     }
 
     body {
-      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-      line-height: 1.7;
+      min-height: 100vh;
+      padding: 1rem 0.5rem 1rem calc(var(--sidebar-width) + 0.5rem);
       color: var(--text-color);
       background-color: var(--bg-color);
-      padding: 1rem 0.5rem;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.7;
+    }
+
+    body.sidebar-open {
+      overflow: hidden;
     }
 
     .container {
+      position: relative;
+      z-index: 1;
       max-width: 1100px;
       margin: 0 auto;
       padding: 0 1rem;
-      position: relative;
-      z-index: 1;
     }
+
+    /* =========================
+       Left Sidebar Navigation
+       ========================= */
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 900;
+      width: var(--sidebar-width);
+      height: 100vh;
+      padding: 2rem 1.2rem 6rem;
+      overflow-y: auto;
+      background-color: var(--card-bg);
+      border-right: 1px solid var(--border-color);
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .sidebar-profile {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .sidebar-avatar {
+      width: 88px;
+      height: 88px;
+      margin-bottom: 0.8rem;
+      object-fit: cover;
+      border: 3px solid var(--bg-color);
+      border-radius: 50%;
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar-name {
+      color: var(--primary);
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .sidebar-description {
+      margin-top: 0.4rem;
+      color: var(--text-color);
+      font-size: 0.78rem;
+      opacity: 0.72;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.7rem 0.9rem;
+      color: var(--text-color);
+      background-color: transparent;
+      border-left: 3px solid transparent;
+      border-radius: 6px;
+      font-size: 0.93rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .sidebar-nav a:hover {
+      color: var(--primary);
+      background-color: var(--bg-color);
+      border-left-color: var(--primary);
+      text-decoration: none;
+      transform: translateX(3px);
+    }
+
+    .sidebar-nav a.active {
+      color: var(--primary);
+      background-color: var(--bg-color);
+      border-left-color: var(--primary);
+      font-weight: 700;
+    }
+
+    .nav-icon {
+      width: 1.25rem;
+      text-align: center;
+    }
+
+    .sidebar-footer {
+      position: absolute;
+      right: 1.2rem;
+      bottom: 1.4rem;
+      left: 1.2rem;
+      color: var(--text-color);
+      font-size: 0.75rem;
+      text-align: center;
+      opacity: 0.6;
+    }
+
+    #navToggle {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1001;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      color: #ffffff;
+      background-color: var(--primary);
+      border: none;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      font-size: 1.3rem;
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 850;
+      display: none;
+      background-color: rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .sidebar-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* =========================
+       Main Header
+       ========================= */
 
     .header {
       display: flex;
@@ -78,22 +234,26 @@
     }
 
     .name {
+      margin-bottom: 1rem;
+      color: var(--primary);
       font-size: 2.2em;
       font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 1rem;
       text-align: center;
     }
 
+    .info p {
+      margin-bottom: 0.75rem;
+    }
+
     .links {
-      text-align: center;
       margin-top: 1rem;
+      text-align: center;
     }
 
     a {
       color: var(--primary);
-      text-decoration: none;
       font-weight: 500;
+      text-decoration: none;
     }
 
     a:hover {
@@ -101,90 +261,138 @@
     }
 
     hr {
-      border: none;
       height: 1px;
-      background-color: var(--border-color);
       margin: 2rem 0;
+      background-color: var(--border-color);
+      border: none;
     }
 
     h3 {
-      font-size: 1.4em;
-      font-weight: 600;
-      color: var(--text-color);
+      display: inline-block;
       margin-bottom: 1.2rem;
       padding-bottom: 0.5rem;
+      color: var(--text-color);
       border-bottom: 2px solid var(--primary);
-      display: inline-block;
+      font-size: 1.4em;
+      font-weight: 600;
     }
 
+    #about,
+    #publications,
+    #patents,
+    #experience,
+    #services,
+    #gallery {
+      scroll-margin-top: 25px;
+    }
+
+    /* =========================
+       Cards
+       ========================= */
+
     .card {
+      position: relative;
+      margin-bottom: 1rem;
+      padding: 1.2rem 1.5rem 1.2rem 2rem;
       background-color: var(--card-bg);
-      padding: 1.2rem 1.5rem;
       border-radius: 10px;
       box-shadow: var(--shadow);
-      margin-bottom: 1rem;
-      position: relative;
-      padding-left: 2rem;
     }
 
     .card::before {
-      content: "";
       position: absolute;
-      left: 0.8rem;
       top: 1.4rem;
+      left: 0.8rem;
       width: 6px;
       height: 6px;
-      background: var(--primary);
+      background-color: var(--primary);
       border-radius: 50%;
+      content: "";
     }
 
     .card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
     .tag {
+      margin-right: 5px;
       padding: 2px 8px;
+      color: white;
       border-radius: 4px;
       font-size: 0.85em;
-      margin-right: 5px;
-      color: white;
     }
 
-    .tag-tip { background-color: #e74c3c; }
-    .tag-tce { background-color: #2ecc71; }
-    .tag-tcsvt { background-color: #3498db; }
-    .tag-ACS { background-color: #9b59b6; }
-    .tag-ASS { background-color: #6d59b6; }
-    .tag-ieice { background-color: #a2b659; }
-    .tag-neuro { background-color: #f39c12; }
+    .tag-tip {
+      background-color: #e74c3c;
+    }
+
+    .tag-tce {
+      background-color: #2ecc71;
+    }
+
+    .tag-tcsvt {
+      background-color: #3498db;
+    }
+
+    .tag-ACS {
+      background-color: #9b59b6;
+    }
+
+    .tag-ASS {
+      background-color: #6d59b6;
+    }
+
+    .tag-ieice {
+      background-color: #a2b659;
+    }
+
+    .tag-neuro {
+      background-color: #f39c12;
+    }
 
     .services-item {
       display: block;
       margin-bottom: 8px;
     }
 
+    .experience-item {
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .experience-item:last-child {
+      padding-bottom: 0;
+      margin-bottom: 0;
+      border-bottom: none;
+    }
+
+    /* =========================
+       Modals
+       ========================= */
+
     .modal {
-      display: none;
       position: fixed;
-      z-index: 1000;
-      left: 0;
       top: 0;
+      left: 0;
+      z-index: 1000;
+      display: none;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.7);
+      background-color: rgba(0, 0, 0, 0.7);
     }
 
     .modal-content {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: var(--card-bg);
+      min-width: 300px;
       padding: 2rem;
+      background-color: var(--card-bg);
       border-radius: 12px;
       text-align: center;
-      min-width: 300px;
+      transform: translate(-50%, -50%);
     }
 
     .modal-content img {
@@ -195,77 +403,86 @@
     }
 
     .email-text {
-      font-size: 1.2em;
+      margin-bottom: 1rem;
       padding: 1rem 1.5rem;
       background-color: var(--bg-color);
-      border-radius: 6px;
-      margin-bottom: 1rem;
-      cursor: pointer;
       border: 1px solid var(--border-color);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.2em;
     }
 
     .close {
       position: absolute;
       top: 10px;
       right: 15px;
-      font-size: 1.5em;
-      cursor: pointer;
       color: var(--text-color);
+      cursor: pointer;
+      font-size: 1.5em;
     }
 
     .close:hover {
       color: var(--primary);
     }
 
+    /* =========================
+       Floating Buttons
+       ========================= */
+
     #backTop {
       position: fixed;
-      bottom: 2rem;
       right: 2rem;
-      width: 45px;
-      height: 45px;
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      font-size: 1.2rem;
-      cursor: pointer;
+      bottom: 2rem;
+      z-index: 999;
       display: none;
       justify-content: center;
       align-items: center;
+      width: 45px;
+      height: 45px;
+      color: white;
+      background-color: var(--primary);
+      border: none;
+      border-radius: 50%;
       box-shadow: var(--shadow);
-      z-index: 999;
+      cursor: pointer;
+      font-size: 1.2rem;
     }
 
     #backTop:hover {
       background-color: #0047cc;
+      transform: translateY(-2px);
     }
 
     #themeToggle {
       position: fixed;
       top: 1rem;
       right: 1rem;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      border: none;
-      background-color: var(--primary);
-      color: white;
-      cursor: pointer;
       z-index: 999;
+      padding: 0.5rem 1rem;
+      color: white;
+      background-color: var(--primary);
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
     }
+
+    /* =========================
+       Gallery
+       ========================= */
 
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, 220px);
+      justify-content: start;
       gap: 1rem;
       margin-top: 1rem;
-      justify-content: start;
     }
 
     .gallery-item {
       width: 220px;
       height: 160px;
-      border-radius: 10px;
       overflow: hidden;
+      border-radius: 10px;
       box-shadow: var(--shadow);
     }
 
@@ -280,17 +497,21 @@
       transform: translateY(-5px);
     }
 
+    /* =========================
+       Loader and Animation
+       ========================= */
+
     .loader {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--bg-color);
+      z-index: 9999;
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 9999;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
       transition: opacity 0.5s ease;
     }
 
@@ -309,14 +530,21 @@
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     .fade-in {
       opacity: 0;
       transform: translateY(20px);
-      transition: all 0.6s ease;
+      transition:
+        opacity 0.6s ease,
+        transform 0.6s ease;
     }
 
     .fade-in.visible {
@@ -325,12 +553,106 @@
     }
 
     .visitor-count {
-      text-align: center;
-      padding: 0.8rem;
-      background: var(--card-bg);
-      border-radius: 8px;
       margin-top: 1rem;
+      padding: 0.8rem;
+      background-color: var(--card-bg);
+      border-radius: 8px;
       font-size: 0.9em;
+      text-align: center;
+    }
+
+    /* =========================
+       Responsive Layout
+       ========================= */
+
+    @media (max-width: 1000px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+
+      .sidebar {
+        z-index: 950;
+        width: 260px;
+        transform: translateX(-105%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      #navToggle {
+        display: flex;
+      }
+
+      .sidebar-overlay {
+        display: block;
+      }
+
+      .container {
+        padding-top: 3.5rem;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .header {
+        flex-direction: column-reverse;
+        align-items: center;
+      }
+
+      .info {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .name {
+        font-size: 1.8em;
+      }
+
+      .avatar {
+        width: 150px;
+        height: 150px;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-item {
+        width: 100%;
+        height: 210px;
+      }
+
+      #themeToggle {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.82rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sidebar {
+        width: 82%;
+        max-width: 280px;
+      }
+
+      .container {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+      }
+
+      .card {
+        padding-right: 1rem;
+      }
+
+      .modal-content {
+        width: calc(100% - 2rem);
+        min-width: 0;
+      }
+
+      .email-text {
+        padding: 0.8rem;
+        font-size: 0.95rem;
+        word-break: break-all;
+      }
     }
   </style>
 </head>
@@ -340,252 +662,763 @@
     <div class="loader-circle"></div>
   </div>
 
-  <button id="themeToggle">🌙 Dark Mode</button>
-  <button id="backTop">🚀</button>
+  <button
+    id="navToggle"
+    type="button"
+    aria-label="Open navigation"
+    aria-expanded="false"
+  >
+    ☰
+  </button>
 
-  <div class="container">
-    <div class="header fade-in">
+  <button id="themeToggle" type="button">
+    🌙 Dark Mode
+  </button>
+
+  <button id="backTop" type="button" aria-label="Back to top">
+    🚀
+  </button>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-profile">
+      <img
+        src="images/photo.jpg"
+        alt="YangPu Tang"
+        class="sidebar-avatar"
+      >
+
+      <div class="sidebar-name">
+        YangPu Tang
+      </div>
+
+      <div class="sidebar-description">
+        Computer Vision &amp; Machine Learning
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Page navigation">
+      <a href="#about" class="nav-link active">
+        <span class="nav-icon">👤</span>
+        <span>About</span>
+      </a>
+
+      <a href="#publications" class="nav-link">
+        <span class="nav-icon">📄</span>
+        <span>Publications</span>
+      </a>
+
+      <a href="#patents" class="nav-link">
+        <span class="nav-icon">💡</span>
+        <span>Patents</span>
+      </a>
+
+      <a href="#experience" class="nav-link">
+        <span class="nav-icon">💼</span>
+        <span>Experience</span>
+      </a>
+
+      <a href="#services" class="nav-link">
+        <span class="nav-icon">🤝</span>
+        <span>Academic Services</span>
+      </a>
+
+      <a href="#gallery" class="nav-link">
+        <span class="nav-icon">📸</span>
+        <span>Gallery</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      © 2026 YangPu Tang
+    </div>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="container">
+    <div class="header fade-in" id="about">
       <div class="info">
-        <h1 class="name">YangPu Tang 唐阳璞</h1>
+        <h1 class="name">
+          YangPu Tang 唐阳璞
+        </h1>
 
-        <p>🎓 I received my bachelor's degree from the School of Mechanical Engineering, Shandong University of Technology, China, and worked with <a href="https://calm.sdut.edu.cn/2021/0707/c7248a432585/page.htm">Prof. Bing Yang</a>, <a href="http://sme.hubu.edu.cn/info/1090/2411.htm">Prof. Xiaohu Wu</a>, <a href="https://calm.sdut.edu.cn/2021/0615/c7248a429589/page.htm">Prof. Hongyu Zheng</a> and <a href="https://baike.baidu.com/item/%E8%8B%91%E5%9F%8E%E7%8E%AE/56849491">Prof. Chengwei Yuan</a>.</p>
+        <p>
+          🎓 I received my bachelor's degree from the School of Mechanical
+          Engineering, Shandong University of Technology, China, and worked
+          with
+          <a
+            href="https://calm.sdut.edu.cn/2021/0707/c7248a432585/page.htm"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prof. Bing Yang
+          </a>,
+          <a
+            href="http://sme.hubu.edu.cn/info/1090/2411.htm"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prof. Xiaohu Wu
+          </a>,
+          <a
+            href="https://calm.sdut.edu.cn/2021/0615/c7248a429589/page.htm"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prof. Hongyu Zheng
+          </a>
+          and
+          <a
+            href="https://baike.baidu.com/item/%E8%8B%91%E5%9F%8E%E7%8E%AE/56849491"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prof. Chengwei Yuan
+          </a>.
+        </p>
 
-        <p>✈️ I am now studying in the School of Robotics Science and Engineering of Northeastern University, supervised by <a href="http://www.rse.neu.edu.cn/2024/0906/c2264a267939/page.htm" target="_blank">Prof. Xiaosheng Yu</a>, and worked closely with <a href="https://scholar.google.com/citations?hl=zh-CN&user=jXLkbw8AAAAJ" target="_blank">Prof. Xiao Dong</a>, <a href="https://scholar.google.com/citations?user=Tf5C2hkAAAAJ&hl=zh-CN" target="_blank">Dr. Jubo Chen</a>, and <a href="https://plus-sist.github.io/author/wenyu-cheng/" target="_blank">Wenyu Chen</a>.</p>
+        <p>
+          ✈️ I am now studying in the School of Robotics Science and
+          Engineering of Northeastern University, supervised by
+          <a
+            href="http://www.rse.neu.edu.cn/2024/0906/c2264a267939/page.htm"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prof. Xiaosheng Yu
+          </a>,
+          and worked closely with
+          <a
+            href="https://scholar.google.com/citations?hl=zh-CN&amp;user=jXLkbw8AAAAJ"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prof. Xiao Dong
+          </a>,
+          <a
+            href="https://scholar.google.com/citations?user=Tf5C2hkAAAAJ&amp;hl=zh-CN"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Dr. Jubo Chen
+          </a>,
+          and
+          <a
+            href="https://plus-sist.github.io/author/wenyu-cheng/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Wenyu Chen
+          </a>.
+        </p>
 
-        <p>🔍 My research interests include computer vision and machine learning, with a current focus on VLN, multimodal perception, and remote sensing / RGB-T visual understanding.</p>
+        <p>
+          🔍 My research interests include computer vision and machine
+          learning, with a current focus on VLN, multimodal perception, and
+          remote sensing / RGB-T visual understanding.
+        </p>
 
         <div class="links">
-          <a href="#email-modal" onclick="openEmailModal()">📧 Email</a> &nbsp;/&nbsp;
-          <a href="https://scholar.google.com/citations?hl=zh-CN&view_op=list_works&gmla=AEk_c1vG48AU9MEXeaPPVMz5Wy8M5Xww0aanWNR55DwiS7qS6ozDE5F4_ZPAwydGujq5uHBDJCPplgU3WzkDliz26Ma1OzA&user=0yu9XvgAAAAJ" target="_blank">📚 Scholar</a> &nbsp;/&nbsp;
-          <a href="https://github.com/yangpu-tang" target="_blank">💻 Github</a> &nbsp;/&nbsp;
+          <a href="#email-modal" onclick="openEmailModal(); return false;">
+            📧 Email
+          </a>
+          &nbsp;/&nbsp;
+
+          <a
+            href="https://scholar.google.com/citations?hl=zh-CN&amp;view_op=list_works&amp;gmla=AEk_c1vG48AU9MEXeaPPVMz5Wy8M5Xww0aanWNR55DwiS7qS6ozDE5F4_ZPAwydGujq5uHBDJCPplgU3WzkDliz26Ma1OzA&amp;user=0yu9XvgAAAAJ"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            📚 Scholar
+          </a>
+          &nbsp;/&nbsp;
+
+          <a
+            href="https://github.com/yangpu-tang"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            💻 GitHub
+          </a>
         </div>
       </div>
 
-      <img src="images/photo.jpg" alt="profile photo" class="avatar">
+      <img
+        src="images/photo.jpg"
+        alt="YangPu Tang profile photo"
+        class="avatar"
+      >
     </div>
 
     <hr class="fade-in">
 
-    <h3 class="fade-in"><strong>📄 Representative Publications</strong></h3>
+    <section aria-labelledby="publications">
+      <h3 class="fade-in" id="publications">
+        <strong>📄 Representative Publications</strong>
+      </h3>
 
-    <div class="card fade-in">
-      <a href="https://ieeexplore.ieee.org/document/11520908" target="_blank">
-        <span class="papertitle"><strong>GLF-Net: Global–Local Fourier-Aware Network with Long-Range Context and Multi-Scale Fusion for Remote Sensing Segmentation</strong></span>
-      </a>
-      <br>
-      <strong>Yangpu Tang</strong>; Xiaosheng Yu; Yifan Zhang; Jubo Chen; Zhuoqun Fang; Zhaokui Li
-      <br>
-      <p style="margin:5px 0;"><em><span class="tag tag-tip">GRSL 2026</span> IEEE Geoscience and Remote Sensing Letters (中科院3区，JCR Q1)</em></p>
-      <a href="https://github.com/yangpu-tang" target="_blank">[github]</a>
-      <a href="https://ieeexplore.ieee.org/document/11520908" target="_blank">[IEEE]</a>
-    </div>
+      <div class="card fade-in">
+        <a
+          href="https://ieeexplore.ieee.org/document/11520908"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="papertitle">
+            <strong>
+              GLF-Net: Global–Local Fourier-Aware Network with Long-Range
+              Context and Multi-Scale Fusion for Remote Sensing Segmentation
+            </strong>
+          </span>
+        </a>
 
-    <div class="card fade-in">
-      <a href="https://doi.org/10.1016/j.neucom.2026.134441" target="_blank">
-        <span class="papertitle"><strong>SFC-net: A Spatial Frequency-Inspired Feature Collaborative Alignment and Fusion Network for Weakly Aligned RGB-T Salient Object Detection</strong></span>
-      </a>
-      <br>
-      Jubo Chen; Xiaosheng Yu; Liuyi Meng; <strong>Yangpu Tang</strong>; Mingli Song
-      <br>
-      <p style="margin:5px 0;"><em><span class="tag tag-neuro">Neurocomputing 2026</span> Neurocomputing (中科院2区top，JCR Q1) </em></p>
-      <a href="https://doi.org/10.1016/j.neucom.2026.134441" target="_blank">[DOI]</a>
-    </div>
+        <br>
 
-    <div class="card fade-in">
-      <a href="https://ieeexplore.ieee.org/document/11214438" target="_blank">
-        <span class="papertitle"><strong>Idea Visual: Intent-Driven View Synthesis for Smart Mobile Devices via Retrieval-Augmented Diffusion Models</strong></span>
-      </a>
-      <br>
-      Jubo Chen; Xiaosheng Yu; <strong>Yangpu Tang</strong>; Zhengxuan Jiang
-      <br>
-      <p style="margin:5px 0;"><em><span class="tag tag-tce">TCE 2025</span> IEEE Transactions on Consumer Electronics (中科院1区top，JCR Q1)</em></p>
-      <a href="https://github.com/yangpu-tang" target="_blank">[github]</a>
-      <a href="https://ieeexplore.ieee.org/document/11214438" target="_blank">[IEEE]</a>
-    </div>
+        <strong>Yangpu Tang</strong>; Xiaosheng Yu; Yifan Zhang; Jubo Chen;
+        Zhuoqun Fang; Zhaokui Li
 
-    <div class="card fade-in">
-      <a href="https://www.sciencedirect.com/science/article/pii/S0169433224006184" target="_blank">
-        <span class="papertitle"><strong>Modulation of the Interfacial Thermal Resistances of the w-AlN/Graphene/3C-SiC Interface by Nanoscale Nonplanar Feature Structures</strong></span>
-      </a>
-      <br>
-      Bing Yang; <strong>Yangpu Tang</strong>; Zhiduo Xin; Hongyu Zheng; Dongfeng Qi; Nana Zhang; Yunqing Tang; Xiaohu Wu <strong>(I am the second author, with my advisor as the first author.)</strong>
-      <br>
-      <p style="margin:5px 0;"><em><span class="tag tag-ASS">ASS 2024</span> Applied Surface Science (中科院1区top，JCR Q1)</em></p>
-      <a href="https://github.com/yangpu-tang" target="_blank">[github]</a>
-      <a href="https://www.sciencedirect.com/science/article/pii/S0169433224006184" target="_blank">[ELSEVIER]</a>
-    </div>
+        <br>
 
-    <div class="card fade-in">
-      <a href="https://pubs.acs.org/doi/abs/10.1021/acsami.2c17661" target="_blank">
-        <span class="papertitle"><strong>Thermal Transport of AlN/Graphene/3C-SiC Typical Heterostructures with Different Crystallinities of Graphene</strong></span>
-      </a>
-      <br>
-      Bing Yang; Cheng Peng; Mingru Song; <strong>Yangpu Tang</strong>; Yongling Wu; Xiaohu Wu; Hongyu Zheng
-      <br>
-      <p style="margin:5px 0;"><em><span class="tag tag-ACS">ACS 2022</span> ACS Applied Materials & Interfaces (中科院2区top，JCR Q1)</em></p>
-      <a href="https://github.com/yangpu-tang" target="_blank">[github]</a>
-      <a href="https://pubs.acs.org/doi/abs/10.1021/acsami.2c17661" target="_blank">[ACS]</a>
-    </div>
+        <p style="margin: 5px 0;">
+          <em>
+            <span class="tag tag-tip">GRSL 2026</span>
+            IEEE Geoscience and Remote Sensing Letters
+            (中科院3区，JCR Q1)
+          </em>
+        </p>
+
+        <a
+          href="https://github.com/yangpu-tang"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          [GitHub]
+        </a>
+
+        <a
+          href="https://ieeexplore.ieee.org/document/11520908"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          [IEEE]
+        </a>
+      </div>
+
+      <div class="card fade-in">
+        <a
+          href="https://doi.org/10.1016/j.neucom.2026.134441"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="papertitle">
+            <strong>
+              SFC-net: A Spatial Frequency-Inspired Feature Collaborative
+              Alignment and Fusion Network for Weakly Aligned RGB-T Salient
+              Object Detection
+            </strong>
+          </span>
+        </a>
+
+        <br>
+
+        Jubo Chen; Xiaosheng Yu; Liuyi Meng;
+        <strong>Yangpu Tang</strong>; Mingli Song
+
+        <br>
+
+        <p style="margin: 5px 0;">
+          <em>
+            <span class="tag tag-neuro">Neurocomputing 2026</span>
+            Neurocomputing (中科院2区top，JCR Q1)
+          </em>
+        </p>
+
+        <a
+          href="https://doi.org/10.1016/j.neucom.2026.134441"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          [DOI]
+        </a>
+      </div>
+
+      <div class="card fade-in">
+        <a
+          href="https://ieeexplore.ieee.org/document/11214438"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="papertitle">
+            <strong>
+              Idea Visual: Intent-Driven View Synthesis for Smart Mobile
+              Devices via Retrieval-Augmented Diffusion Models
+            </strong>
+          </span>
+        </a>
+
+        <br>
+
+        Jubo Chen; Xiaosheng Yu; <strong>Yangpu Tang</strong>;
+        Zhengxuan Jiang
+
+        <br>
+
+        <p style="margin: 5px 0;">
+          <em>
+            <span class="tag tag-tce">TCE 2025</span>
+            IEEE Transactions on Consumer Electronics
+            (中科院1区top，JCR Q1)
+          </em>
+        </p>
+
+        <a
+          href="https://github.com/yangpu-tang"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          [GitHub]
+        </a>
+
+        <a
+          href="https://ieeexplore.ieee.org/document/11214438"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          [IEEE]
+        </a>
+      </div>
+
+      <div class="card fade-in">
+        <a
+          href="https://www.sciencedirect.com/science/article/pii/S0169433224006184"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="papertitle">
+            <strong>
+              Modulation of the Interfacial Thermal Resistances of the
+              w-AlN/Graphene/3C-SiC Interface by Nanoscale Nonplanar Feature
+              Structures
+            </strong>
+          </span>
+        </a>
+
+        <br>
+
+        Bing Yang; <strong>Yangpu Tang</strong>; Zhiduo Xin; Hongyu Zheng;
+        Dongfeng Qi; Nana Zhang; Yunqing Tang; Xiaohu Wu
+
+        <strong>
+          (I am the second author, with my advisor as the first author.)
+        </strong>
+
+        <br>
+
+        <p style="margin: 5px 0;">
+          <em>
+            <span class="tag tag-ASS">ASS 2024</span>
+            Applied Surface Science (中科院1区top，JCR Q1)
+          </em>
+        </p>
+
+        <a
+          href="https://github.com/yangpu-tang"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          [GitHub]
+        </a>
+
+        <a
+          href="https://www.sciencedirect.com/science/article/pii/S0169433224006184"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          [ELSEVIER]
+        </a>
+      </div>
+
+      <div class="card fade-in">
+        <a
+          href="https://pubs.acs.org/doi/abs/10.1021/acsami.2c17661"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="papertitle">
+            <strong>
+              Thermal Transport of AlN/Graphene/3C-SiC Typical
+              Heterostructures with Different Crystallinities of Graphene
+            </strong>
+          </span>
+        </a>
+
+        <br>
+
+        Bing Yang; Cheng Peng; Mingru Song; <strong>Yangpu Tang</strong>;
+        Yongling Wu; Xiaohu Wu; Hongyu Zheng
+
+        <br>
+
+        <p style="margin: 5px 0;">
+          <em>
+            <span class="tag tag-ACS">ACS 2022</span>
+            ACS Applied Materials &amp; Interfaces
+            (中科院2区top，JCR Q1)
+          </em>
+        </p>
+
+        <a
+          href="https://github.com/yangpu-tang"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          [GitHub]
+        </a>
+
+        <a
+          href="https://pubs.acs.org/doi/abs/10.1021/acsami.2c17661"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          [ACS]
+        </a>
+      </div>
+    </section>
 
     <hr class="fade-in">
 
-    <h3 class="fade-in"><strong>💡 Patents</strong></h3>
+    <section aria-labelledby="patents">
+      <h3 class="fade-in" id="patents">
+        <strong>💡 Patents</strong>
+      </h3>
 
-    <div class="card fade-in">
-      <span class="projecttitle">
-        <strong>一种具备单向导通性能的金刚石导热结构设计</strong>
-      </span>
-      <br>
-      <strong>Inventors:</strong> Yang Bing, Jin Xuelin, <strong>Yangpu Tang</strong>, Wei Bowen, Wei Juan, Wang Shengxiang, Zhang Weipeng, Zheng Hongyu
-      <br>
-      <p style="margin:5px 0;">
-        <em>Invention Patent, CN202511383019.3, filed on 2025.09.26, published as CN121351355A on 2026.01.16. Status: Under Review.</em>
-      </p>
-      <p style="margin:5px 0;">
-        <em>Applicant / Current Assignee: Shandong University of Technology.</em>
-      </p>
-    </div>
+      <div class="card fade-in">
+        <span class="projecttitle">
+          <strong>
+            一种具备单向导通性能的金刚石导热结构设计
+          </strong>
+        </span>
 
-    <div class="card fade-in">
-      <span class="projecttitle">
-        <strong>一种基于多传感器融合的绳驱机器人力柔顺控制方法与系统，计算机存储介质</strong>
-      </span>
-      <br>
-      <strong>Inventors:</strong> Mou Zonggao, Gao Yuming, Zhang Hui, <strong>Yangpu Tang</strong>, Li Lufan, Qiu Junye, Jia Lihui, Gao Mingwang
-      <br>
-      <p style="margin:5px 0;">
-        <em>Invention Patent, CN202310767616.0, filed on 2023.06.27, published as CN116819965A on 2023.09.29. Status: Under Review.</em>
-      </p>
-      <p style="margin:5px 0;">
-        <em>Applicant / Current Assignee: Shandong University of Technology.</em>
-      </p>
-    </div>
+        <br>
 
-    <div class="card fade-in">
-      <span class="projecttitle">
-        <strong>一种用于同轴绳驱机械臂的双圆弧拟合方法及系统，计算机存储介质</strong>
-      </span>
-      <br>
-      <strong>Inventors:</strong> Mou Zonggao, Lü Hao, <strong>Yangpu Tang</strong>, Zhang Hui, Qiu Junye, Li Lufan, Jia Lihui, Gao Mingwang
-      <br>
-      <p style="margin:5px 0;">
-        <em>Invention Patent, CN202310697176.6, filed on 2023.06.13, published as CN116652954A on 2023.08.29. Status: Invalid.</em>
-      </p>
-      <p style="margin:5px 0;">
-        <em>Applicant / Current Assignee: Shandong University of Technology.</em>
-      </p>
-    </div>
+        <strong>Inventors:</strong>
+        Yang Bing, Jin Xuelin, <strong>Yangpu Tang</strong>, Wei Bowen,
+        Wei Juan, Wang Shengxiang, Zhang Weipeng, Zheng Hongyu
 
+        <br>
+
+        <p style="margin: 5px 0;">
+          <em>
+            Invention Patent, CN202511383019.3, filed on 2025.09.26,
+            published as CN121351355A on 2026.01.16. Status: Under Review.
+          </em>
+        </p>
+
+        <p style="margin: 5px 0;">
+          <em>
+            Applicant / Current Assignee: Shandong University of Technology.
+          </em>
+        </p>
+      </div>
+
+      <div class="card fade-in">
+        <span class="projecttitle">
+          <strong>
+            一种基于多传感器融合的绳驱机器人力柔顺控制方法与系统，计算机存储介质
+          </strong>
+        </span>
+
+        <br>
+
+        <strong>Inventors:</strong>
+        Mou Zonggao, Gao Yuming, Zhang Hui,
+        <strong>Yangpu Tang</strong>, Li Lufan, Qiu Junye, Jia Lihui,
+        Gao Mingwang
+
+        <br>
+
+        <p style="margin: 5px 0;">
+          <em>
+            Invention Patent, CN202310767616.0, filed on 2023.06.27,
+            published as CN116819965A on 2023.09.29. Status: Under Review.
+          </em>
+        </p>
+
+        <p style="margin: 5px 0;">
+          <em>
+            Applicant / Current Assignee: Shandong University of Technology.
+          </em>
+        </p>
+      </div>
+
+      <div class="card fade-in">
+        <span class="projecttitle">
+          <strong>
+            一种用于同轴绳驱机械臂的双圆弧拟合方法及系统，计算机存储介质
+          </strong>
+        </span>
+
+        <br>
+
+        <strong>Inventors:</strong>
+        Mou Zonggao, Lü Hao, <strong>Yangpu Tang</strong>, Zhang Hui,
+        Qiu Junye, Li Lufan, Jia Lihui, Gao Mingwang
+
+        <br>
+
+        <p style="margin: 5px 0;">
+          <em>
+            Invention Patent, CN202310697176.6, filed on 2023.06.13,
+            published as CN116652954A on 2023.08.29. Status: Invalid.
+          </em>
+        </p>
+
+        <p style="margin: 5px 0;">
+          <em>
+            Applicant / Current Assignee: Shandong University of Technology.
+          </em>
+        </p>
+      </div>
+    </section>
 
     <hr class="fade-in">
 
-    <h3 class="fade-in"><strong>💼 Research & Internship Experience</strong></h3>
-    
-    <div class="card fade-in">
-    
-      <div class="services-item" style="margin-bottom: 16px;">
-        <strong>Undergraduate Research Assistant</strong>, 2021–2025<br>
-        Laser Advanced Manufacturing Research Center, Shandong University of Technology<br>
-        <strong>Advisors:</strong>
-        <a href="https://calm.sdut.edu.cn/2021/0707/c7248a432585/page.htm" target="_blank">
-          Prof. Bing Yang
-        </a>
-        and
-        <a href="https://calm.sdut.edu.cn/2021/0615/c7248a429589/page.htm" target="_blank">
-          Prof. Hongyu Zheng
-        </a>
-      </div>
-    
-      <div class="services-item" style="margin-bottom: 16px;">
-        <strong>Undergraduate Research Assistant</strong>, 2024–2025<br>
-        School of Mechanical Engineering, Shandong University of Technology<br>
-        <strong>Advisor:</strong>
-        <a href="https://baike.baidu.com/item/%E8%8B%91%E5%9F%8E%E7%8E%AE/56849491" target="_blank">
-          Prof. Chengwei Yuan
-        </a>
-      </div>
-    
-      <div class="services-item" style="margin-bottom: 16px;">
-        <strong>Graduate Researcher</strong>, July 2025–Present<br>
-        School of Robotics Science and Engineering, Northeastern University<br>
-        <strong>Advisor:</strong>
-        <a href="http://www.rse.neu.edu.cn/2026/0618/c2274a456466/page.htm" target="_blank">
-          Prof. Xiaosheng Yu
-        </a>
-      </div>
-    
-      <div class="services-item" style="margin-bottom: 16px;">
-        <strong>Research Intern</strong>, May 2026–Present<br>
-        School of Information Science and Engineering, Shandong Normal University<br>
-        <strong>Advisor:</strong>
-        <a href="https://scholar.google.com/citations?hl=en&amp;user=jXLkbw8AAAAJ" target="_blank">
-          Prof. Xiao Dong
-        </a>
-      </div>
-    
-      <div class="services-item" style="margin-bottom: 0;">
-        <strong>Visiting Research Intern</strong>, August 2026 (Scheduled)<br>
-        School of Computer Science and Engineering, Sun Yat-sen University<br>
-        <strong>Advisor:</strong>
-        <a href="https://ise.sysu.edu.cn/teacher/LiangXiaodan" target="_blank">
-          Prof. Xiaodan Liang
-        </a>
-      </div>
-    
-    </div>
-        <hr class="fade-in">
+    <section aria-labelledby="experience">
+      <h3 class="fade-in" id="experience">
+        <strong>💼 Research &amp; Internship Experience</strong>
+      </h3>
 
-    <h3 class="fade-in"><strong>🤝 Academic Services</strong></h3>
+      <div class="card fade-in">
+        <div class="experience-item">
+          <strong>Undergraduate Research Assistant</strong>, 2021–2025
 
-    <div class="card fade-in">
-      <span class="services-item">
-        <strong>Reviewer:</strong> IEEE Internet of Things Journal (IEEE IoT-J)
-      </span>
-      <span class="services-item">
-        <strong>PC Member:</strong> AAAI Conference on Artificial Intelligence (AAAI)
-      </span>
-    </div>
+          <br>
 
-    <h3 class="fade-in"><strong>📸 Research Group Gallery</strong></h3>
+          Laser Advanced Manufacturing Research Center,
+          Shandong University of Technology
 
-    <div class="gallery-grid fade-in">
-      <div class="gallery-item">
-        <img src="images/gaoguai.jpg" alt="Group Photo 1" onclick="openModal(this.src)">
+          <br>
+
+          <strong>Advisors:</strong>
+
+          <a
+            href="https://calm.sdut.edu.cn/2021/0707/c7248a432585/page.htm"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prof. Bing Yang
+          </a>
+
+          and
+
+          <a
+            href="https://calm.sdut.edu.cn/2021/0615/c7248a429589/page.htm"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prof. Hongyu Zheng
+          </a>
+        </div>
+
+        <div class="experience-item">
+          <strong>Undergraduate Research Assistant</strong>, 2024–2025
+
+          <br>
+
+          School of Mechanical Engineering,
+          Shandong University of Technology
+
+          <br>
+
+          <strong>Advisor:</strong>
+
+          <a
+            href="https://baike.baidu.com/item/%E8%8B%91%E5%9F%8E%E7%8E%AE/56849491"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prof. Chengwei Yuan
+          </a>
+        </div>
+
+        <div class="experience-item">
+          <strong>Graduate Researcher</strong>, July 2025–Present
+
+          <br>
+
+          School of Robotics Science and Engineering,
+          Northeastern University
+
+          <br>
+
+          <strong>Advisor:</strong>
+
+          <a
+            href="http://www.rse.neu.edu.cn/2026/0618/c2274a456466/page.htm"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prof. Xiaosheng Yu
+          </a>
+        </div>
+
+        <div class="experience-item">
+          <strong>Research Intern</strong>, May 2026–Present
+
+          <br>
+
+          School of Information Science and Engineering,
+          Shandong Normal University
+
+          <br>
+
+          <strong>Advisor:</strong>
+
+          <a
+            href="https://scholar.google.com/citations?hl=en&amp;user=jXLkbw8AAAAJ"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prof. Xiao Dong
+          </a>
+        </div>
+
+        <div class="experience-item">
+          <strong>Visiting Research Intern</strong>,
+          August 2026 (Scheduled)
+
+          <br>
+
+          School of Computer Science and Engineering,
+          Sun Yat-sen University
+
+          <br>
+
+          <strong>Advisor:</strong>
+
+          <a
+            href="https://ise.sysu.edu.cn/teacher/LiangXiaodan"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prof. Xiaodan Liang
+          </a>
+        </div>
       </div>
-      <div class="gallery-item">
-        <img src="images/lulu.jpg" alt="Group Photo 2" onclick="openModal(this.src)">
+    </section>
+
+    <hr class="fade-in">
+
+    <section aria-labelledby="services">
+      <h3 class="fade-in" id="services">
+        <strong>🤝 Academic Services</strong>
+      </h3>
+
+      <div class="card fade-in">
+        <span class="services-item">
+          <strong>Reviewer:</strong>
+          IEEE Internet of Things Journal (IEEE IoT-J)
+        </span>
+
+        <span class="services-item">
+          <strong>PC Member:</strong>
+          AAAI Conference on Artificial Intelligence (AAAI)
+        </span>
       </div>
-    </div>
+    </section>
+
+    <hr class="fade-in">
+
+    <section aria-labelledby="gallery">
+      <h3 class="fade-in" id="gallery">
+        <strong>📸 Research Group Gallery</strong>
+      </h3>
+
+      <div class="gallery-grid fade-in">
+        <div class="gallery-item">
+          <img
+            src="images/gaoguai.jpg"
+            alt="Research Group Photo 1"
+            onclick="openModal(this.src)"
+          >
+        </div>
+
+        <div class="gallery-item">
+          <img
+            src="images/lulu.jpg"
+            alt="Research Group Photo 2"
+            onclick="openModal(this.src)"
+          >
+        </div>
+      </div>
+    </section>
 
     <div class="visitor-count fade-in">
-      👀✨ Total Visits: <span id="visit-count">0</span>
+      👀✨ Total Visits:
+      <span id="visit-count">0</span>
     </div>
-  </div>
+  </main>
 
   <div id="email-modal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeEmailModal()">&times;</span>
-      <p class="email-text" id="emailAddr" onclick="copyEmail()">tangyangpu@mails.neu.edu.cn</p>
-      <p id="copyTip">📧 Click to copy / Contact me via email</p>
+      <span class="close" onclick="closeEmailModal()">
+        &times;
+      </span>
+
+      <p
+        class="email-text"
+        id="emailAddr"
+        onclick="copyEmail()"
+      >
+        tangyangpu@mails.neu.edu.cn
+      </p>
+
+      <p id="copyTip">
+        📧 Click to copy / Contact me via email
+      </p>
     </div>
   </div>
 
   <div id="wechat-modal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeWechatModal()">&times;</span>
-      <img src="images/wechat.jpg" alt="Wechat QR Code">
-      <p>💬 Scan to add WeChat</p>
+      <span class="close" onclick="closeWechatModal()">
+        &times;
+      </span>
+
+      <img
+        src="images/wechat.jpg"
+        alt="WeChat QR Code"
+      >
+
+      <p>
+        💬 Scan to add WeChat
+      </p>
     </div>
   </div>
 
   <div id="img-modal" class="modal" onclick="closeImgModal()">
     <div class="modal-content">
-      <span class="close" onclick="closeImgModal()">&times;</span>
-      <img id="modal-img" style="max-width: 90%; max-height: 80vh; transition: 0.2s;" src="" alt="Preview">
+      <span class="close" onclick="closeImgModal()">
+        &times;
+      </span>
+
+      <img
+        id="modal-img"
+        src=""
+        alt="Image preview"
+        style="
+          max-width: 90%;
+          max-height: 80vh;
+          transition: transform 0.2s ease;
+        "
+      >
     </div>
   </div>
 
   <script>
+    /* =========================
+       Email Modal
+       ========================= */
+
     function openEmailModal() {
       document.getElementById("email-modal").style.display = "block";
     }
@@ -602,90 +1435,283 @@
       document.getElementById("wechat-modal").style.display = "none";
     }
 
+    function copyEmail() {
+      const email = document.getElementById("emailAddr").innerText;
+      const copyTip = document.getElementById("copyTip");
+
+      navigator.clipboard.writeText(email)
+        .then(() => {
+          copyTip.innerText = "✅ Copied successfully!";
+
+          setTimeout(() => {
+            copyTip.innerText = "📧 Click to copy / Contact me via email";
+          }, 2000);
+        })
+        .catch(() => {
+          copyTip.innerText = "Copy failed. Please copy the address manually.";
+
+          setTimeout(() => {
+            copyTip.innerText = "📧 Click to copy / Contact me via email";
+          }, 2000);
+        });
+    }
+
+    /* =========================
+       Image Modal
+       ========================= */
+
     let imgScale = 1;
 
     function openModal(src) {
+      const imageModal = document.getElementById("img-modal");
+      const modalImage = document.getElementById("modal-img");
+
       imgScale = 1;
-      document.getElementById("img-modal").style.display = "block";
-      document.getElementById("modal-img").src = src;
-      document.getElementById("modal-img").style.transform = `scale(${imgScale})`;
+      imageModal.style.display = "block";
+      modalImage.src = src;
+      modalImage.style.transform = `scale(${imgScale})`;
     }
 
     function closeImgModal() {
       document.getElementById("img-modal").style.display = "none";
     }
 
-    document.getElementById('modal-img').addEventListener('wheel', (e) => {
-      e.preventDefault();
-      imgScale += e.deltaY > 0 ? -0.1 : 0.1;
-      imgScale = Math.max(0.5, Math.min(2, imgScale));
-      e.target.style.transform = `scale(${imgScale})`;
-    });
+    document
+      .getElementById("modal-img")
+      .addEventListener("wheel", event => {
+        event.preventDefault();
 
-    window.onclick = function(event) {
+        imgScale += event.deltaY > 0 ? -0.1 : 0.1;
+        imgScale = Math.max(0.5, Math.min(2, imgScale));
+
+        event.target.style.transform = `scale(${imgScale})`;
+      });
+
+    /* =========================
+       Close Modals
+       ========================= */
+
+    window.addEventListener("click", event => {
       const emailModal = document.getElementById("email-modal");
       const wechatModal = document.getElementById("wechat-modal");
-      const imgModal = document.getElementById("img-modal");
+      const imageModal = document.getElementById("img-modal");
 
-      if (event.target === emailModal) closeEmailModal();
-      if (event.target === wechatModal) closeWechatModal();
-      if (event.target === imgModal) closeImgModal();
-    };
+      if (event.target === emailModal) {
+        closeEmailModal();
+      }
 
-    function copyEmail() {
-      const email = document.getElementById("emailAddr").innerText;
-      navigator.clipboard.writeText(email).then(() => {
-        document.getElementById("copyTip").innerText = "✅ Copied successfully!";
-        setTimeout(() => {
-          document.getElementById("copyTip").innerText = "📧 Click to copy / Contact me via email";
-        }, 2000);
+      if (event.target === wechatModal) {
+        closeWechatModal();
+      }
+
+      if (event.target === imageModal) {
+        closeImgModal();
+      }
+    });
+
+    /* =========================
+       Back to Top
+       ========================= */
+
+    const backTopButton = document.getElementById("backTop");
+
+    window.addEventListener("scroll", () => {
+      backTopButton.style.display =
+        window.scrollY > 300 ? "flex" : "none";
+    });
+
+    backTopButton.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
       });
+    });
+
+    /* =========================
+       Theme Toggle
+       ========================= */
+
+    const themeButton = document.getElementById("themeToggle");
+
+    themeButton.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+
+      const darkModeEnabled =
+        document.body.classList.contains("dark-mode");
+
+      themeButton.innerText = darkModeEnabled
+        ? "☀️ Light Mode"
+        : "🌙 Dark Mode";
+
+      localStorage.setItem(
+        "darkMode",
+        darkModeEnabled ? "enabled" : "disabled"
+      );
+    });
+
+    if (localStorage.getItem("darkMode") === "enabled") {
+      document.body.classList.add("dark-mode");
+      themeButton.innerText = "☀️ Light Mode";
     }
 
-    const backTopBtn = document.getElementById("backTop");
+    /* =========================
+       Page Loader
+       ========================= */
 
-    window.onscroll = function() {
-      backTopBtn.style.display = window.scrollY > 300 ? "flex" : "none";
-    };
-
-    backTopBtn.onclick = function() {
-      window.scrollTo(0, 0);
-    };
-
-    const themeBtn = document.getElementById("themeToggle");
-
-    themeBtn.onclick = function() {
-      document.body.classList.toggle("dark-mode");
-      this.innerText = document.body.classList.contains("dark-mode") ? "☀️ Light Mode" : "🌙 Dark Mode";
-    };
-
-    window.addEventListener('load', () => {
+    window.addEventListener("load", () => {
       setTimeout(() => {
-        document.getElementById('loader').classList.add('hidden');
+        document.getElementById("loader").classList.add("hidden");
       }, 800);
     });
 
-    const fadeElements = document.querySelectorAll('.fade-in');
+    /* =========================
+       Fade-in Animation
+       ========================= */
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+    const fadeElements = document.querySelectorAll(".fade-in");
+
+    const fadeObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1
+      }
+    );
+
+    fadeElements.forEach(element => {
+      fadeObserver.observe(element);
+    });
+
+    /* =========================
+       Visit Count
+       ========================= */
+
+    let visitCount = localStorage.getItem("visitCount") || 0;
+
+    visitCount = Number.parseInt(visitCount, 10) + 1;
+
+    localStorage.setItem("visitCount", visitCount);
+
+    document.getElementById("visit-count").innerText = visitCount;
+
+    /* =========================
+       Sidebar Navigation
+       ========================= */
+
+    const sidebar = document.getElementById("sidebar");
+    const navToggle = document.getElementById("navToggle");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    const navigationSections = [
+      document.getElementById("about"),
+      document.getElementById("publications"),
+      document.getElementById("patents"),
+      document.getElementById("experience"),
+      document.getElementById("services"),
+      document.getElementById("gallery")
+    ].filter(Boolean);
+
+    function openSidebar() {
+      sidebar.classList.add("open");
+      sidebarOverlay.classList.add("visible");
+      document.body.classList.add("sidebar-open");
+
+      navToggle.innerText = "✕";
+      navToggle.setAttribute("aria-expanded", "true");
+      navToggle.setAttribute("aria-label", "Close navigation");
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove("open");
+      sidebarOverlay.classList.remove("visible");
+      document.body.classList.remove("sidebar-open");
+
+      navToggle.innerText = "☰";
+      navToggle.setAttribute("aria-expanded", "false");
+      navToggle.setAttribute("aria-label", "Open navigation");
+    }
+
+    function toggleSidebar() {
+      if (sidebar.classList.contains("open")) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    }
+
+    navToggle.addEventListener("click", event => {
+      event.stopPropagation();
+      toggleSidebar();
+    });
+
+    sidebarOverlay.addEventListener("click", closeSidebar);
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        if (window.innerWidth <= 1000) {
+          closeSidebar();
         }
       });
-    }, { threshold: 0.1 });
+    });
 
-    fadeElements.forEach(el => observer.observe(el));
+    function updateActiveNavigation() {
+      const scrollPosition = window.scrollY + 180;
+      let currentSectionId = "about";
 
-    let visitCount = localStorage.getItem('visitCount') || 0;
-    visitCount = parseInt(visitCount) + 1;
-    localStorage.setItem('visitCount', visitCount);
-    document.getElementById('visit-count').innerText = visitCount;
+      navigationSections.forEach(section => {
+        if (section.offsetTop <= scrollPosition) {
+          currentSectionId = section.id;
+        }
+      });
 
-    document.addEventListener('keydown', (e) => {
-      const key = e.key.toLowerCase();
-      if (key === 'd') themeBtn.click();
-      if (key === 't') backTopBtn.click();
+      navLinks.forEach(link => {
+        const targetId = link.getAttribute("href");
+
+        link.classList.toggle(
+          "active",
+          targetId === `#${currentSectionId}`
+        );
+      });
+    }
+
+    window.addEventListener("scroll", updateActiveNavigation);
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 1000) {
+        closeSidebar();
+      }
+    });
+
+    window.addEventListener("load", updateActiveNavigation);
+
+    /* =========================
+       Keyboard Shortcuts
+       ========================= */
+
+    document.addEventListener("keydown", event => {
+      const key = event.key.toLowerCase();
+
+      if (key === "d") {
+        themeButton.click();
+      }
+
+      if (key === "t") {
+        backTopButton.click();
+      }
+
+      if (key === "escape") {
+        closeSidebar();
+        closeEmailModal();
+        closeWechatModal();
+        closeImgModal();
+      }
     });
   </script>
 </body>
